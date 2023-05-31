@@ -1,6 +1,6 @@
-gcc_options = -std=c++17
+gcc_options = -std=gnu++17 -Wall -Wextra -O2
 
-all: program
+all: ex
 
 program: source.cpp
 	g++ $(gcc_options) $< -o $@

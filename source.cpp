@@ -1,43 +1,25 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-template <typename T> vector<pair<T, T>> prime_factorization(T N) {
-	vector<pair<T, T>> ret;
-	for (T i = 2; i * i <= N; ++i) {
-		if (N % i != 0) continue;
-		T tmp = 0;
-		while (N % i == 0) {
-			tmp++;
-			N /= i;
-		}
-		ret.push_back(make_pair(i, tmp));
-	}
-	if (N != 1) ret.push_back(make_pair(N, 1));
-	return ret;
-}
-
 int main() {
-	long long K;
-	cin >> K;
-	vector<pair<long long, long long>> pf = prime_factorization(K);
-	long long left = 1, right = K;
-	while (right - left > 1) {
-		long long mid = left + (right - left) / 2;
-		bool ok = true;
-		for (auto [p, ex] : pf) {
-			long long cnt = 0;
-			long long b = p;
-			while (mid / b) {
-				cnt += mid / b;
-				b *= p;
-			}
-			if (cnt < ex)
-				ok = false;
-		}
-		if (ok)
-			right = mid;
-		else
-			left = mid;
-	}
-	cout << right << endl;
+    int N, X;
+    cin >> N >> X;
+    vector<int> A(N);
+    for (int i = 0; i < N; ++i)
+        cin >> A[i];
+    sort(A.begin(), A.end());
+    for (int i = 0; i < N; ++i) {
+        cout << A[i] << ' ';
+    }
+    cout << endl;
+    for (int i = 0; i < N; ++i) {
+        int index_lower = lower_bound(A.begin(), A.end(), A[i] - X) - A.begin();
+        int index_upper = upper_bound(A.begin(), A.end(), A[i] - X) - A.begin();
+        cout << index_lower << ' ' << index_upper << endl;
+        if (index_lower == index_upper) {
+            cout << "Yes" << endl;
+            return 0;
+        }
+    }
+    cout << "No" << endl;
 }
